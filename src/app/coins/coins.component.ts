@@ -18,12 +18,15 @@ export class CoinsComponent implements OnInit {
   
   readonly coins: Coin[] = [{ id: 'BTC', name: 'Bitcoin' }, { id: 'ETH', name: 'Ethereum' }, { id: 'LTC', name: 'Litecoin' }];
   selectedCoin = '';
+  showGraph = false;
 
   form = new FormGroup({
     searchType: new FormControl('', Validators.required)
   });
 
+  price: number;
   viewOption: string;
+  data: any;
 
   constructor(private cryptoService: CryptoService) { }
 
@@ -34,22 +37,21 @@ export class CoinsComponent implements OnInit {
     return this.form.controls;
   }
 
-  callCoinService(e) {
-    // here call the cryptoservice
-    this.cryptoService.getCoinPrice(e, 'current')
-        .subscribe(data=>console.log(data));
-  }
 
   changeSearchType(e) {
     this.viewOption = e.target.value;
   }
 
   submit() {
+    this.showGraph = false;
     if (this.viewOption === 'current' || this.viewOption === 'daily' ) {
       this.cryptoService.getCoinPrice(this.selectedCoin, this.viewOption)
-      .subscribe(data=>console.log(data));
+      .subscribe(data => {if (this.viewOption === 'daily') {this.showGraph = true; this.data = data; } else {
+        this.price = data[this.selectedCoin].GBP;
+      } });
     } else {
-      this.cryptoService.getCoinExchange(this.selectedCoin);
+      this.cryptoService.getCoinExchange(this.selectedCoin)
+        .subscribe(data => this.data = data);
     }
   }
 

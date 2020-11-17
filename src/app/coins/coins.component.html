@@ -3,7 +3,7 @@
 <i class='ico ico-rail select-box-icon'></i>
 <select class='select-box'
         [(ngModel)]="selectedCoin" 
-        (ngModelChange)="callCoinService($event)">
+        >
 <option *ngFor='let coin of coins'
    [ngValue]='coin.id'>{{coin.name}}</option>
 </select>
@@ -32,5 +32,10 @@
     </div>
     
     <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+
+    <h2 *ngIf="price">{{selectedCoin}} {{price | currency: 'GBP'}}</h2>
+    <div *ngIf="showGraph">
+        <app-chart [data]=data></app-chart>
+    </div>
 </form>
 

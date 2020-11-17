@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { URLS, KEYS, ROUTES } from '../assets/enums';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { URLS, KEYS, ROUTES } from '../assets/enums';
 
 
 
@@ -33,11 +35,10 @@ export class CryptoService {
   }
 
 
-  getCoinExchange(coin) {
+  getCoinExchange(coin): Observable<any> {
     const params = `?fsym=${coin}&tsym=GBP&e=Binance&api_key=${KEYS.API_KEY}&limit=${this.limit}`;
     return this.http
-      .get(URLS.CRYPTO_COMPARE + ROUTES.EXCHANGE_HISTORY_TODY + params)
-      .subscribe(data=>console.log(data))
+      .get(URLS.CRYPTO_COMPARE + ROUTES.EXCHANGE_HISTORY_TODY + params);
   }
 }
 
