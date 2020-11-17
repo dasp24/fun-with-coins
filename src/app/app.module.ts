@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { CoinsComponent } from './coins/coins.component';
-import { UrlService } from '../services/url.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,7 @@ import { UrlService } from '../services/url.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [UrlService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UrlService, URLS } from './url.service';
+import { URLS, KEYS, ROUTES } from '../assets/enums';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
@@ -10,14 +10,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CryptoService {
 
   constructor(
-              private http: HttpClient,
-              private urlService: UrlService
+              private http: HttpClient
     ) { }
 
-  getCoinData(e) {
-    const params = `?fsyms=${e}&tsyms=GBP&api_key=${URLS.API_KEY}`;
+  getCoinPrice(e) {
+    const params = `?fsyms=${e}&tsyms=GBP&api_key=${KEYS.API_KEY}`;
     return this.http
-      .get(URLS.CRYPTO_COMPARE + params)
+      .get(URLS.CRYPTO_COMPARE + ROUTES.PRICE_CURRENT + params)
       .subscribe(data=>console.log(data))
   }
 }

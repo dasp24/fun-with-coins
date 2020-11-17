@@ -22,7 +22,7 @@ export class CoinsComponent implements OnInit {
 
   callCoinService(e) {
     // here call the cryptoservice
-    this.cryptoService.getCoinData(e);
+    this.cryptoService.getCoinPrice(e);
   }
 
 }
