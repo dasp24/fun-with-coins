@@ -7,4 +7,30 @@
 <option *ngFor='let coin of coins'
    [ngValue]='coin.id'>{{coin.name}}</option>
 </select>
+<form [formGroup]="form" (ngSubmit)="submit()">
+           
+    <div class="form-group">
+        <label for="searchType">View options:</label>
+        <div>
+          <input id="current" type="radio" value="current" name="searchType" formControlName="searchType" (change)="changeSearchType($event)">
+          <label for="current">Current price</label>
+       </div>
+
+       <div>
+          <input id="daily" type="radio" value="daily" name="searchType" formControlName="searchType" (change)="changeSearchType($event)">
+          <label for="daily">Daily prices</label>
+       </div>
+
+       <div>
+        <input id="exchange" type="radio" value="exchange" name="searchType" formControlName="searchType" (change)="changeSearchType($event)">
+        <label for="exchange">Daily trade</label>
+     </div>
+          
+        <div *ngIf="f.searchType.touched && f.searchType.invalid" class="alert alert-danger">
+            <div *ngIf="f.searchType.errors.required">Please select a view option</div>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+</form>
 

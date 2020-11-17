@@ -11,7 +11,7 @@ export enum URLS {
 export enum ROUTES {
     PRICE_CURRENT = '/data/pricemulti',
     PRICE_HISTORY_TODAY = '/data/v2/histoday',
-    EXCHANGE_HISTORY_TODY = '/data/exchange/histoday'
+    EXCHANGE_HISTORY_TODY = '/data/exchange/symbol/histoday'
 }
 
 /**
