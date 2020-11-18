@@ -35,6 +35,19 @@ export class ChartComponent implements OnInit {
     this.buildSvg();
     this.addXandYAxis();
     this.drawLineAndPath();
+    this.addFun();
+  }
+
+  private addFun() {
+    
+    d3.select('svg')
+    .on('mousemove', (d) => { 
+      const position = d3.pointer(d);
+      this.svg.append('circle')
+              .attr('fill', 'red')
+              .attr('r', 1.5)
+              .attr('cx', position[0])
+              .attr('cy', position[1])});
   }
 
   private setGraphData(data) {
@@ -52,8 +65,19 @@ export class ChartComponent implements OnInit {
       .attr('width', this.width + this.margin.left + this.margin.right)
       .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
+      .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')')
+     
+      // .on("mousemove", ()=> {
+      //   let pos = d3.mouse(this);
+      //     d3.select(this)
+      //         .append("circle")
+      //         .attr("fill", "red")
+      //         .attr("r", 1.5)
+      //         .attr("cx", pos[0])
+      //         .attr("cy", pos[1])
+      // })
   }
+
   private addXandYAxis() {
     // range of data configuring
     this.x = d3Scale.scaleTime().range([0, this.width]);
@@ -71,6 +95,10 @@ export class ChartComponent implements OnInit {
   }
 
   private drawLineAndPath() {
+    const div = d3.select("body").append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
+
     this.line = d3Shape.line()
         .x( (d: any) => this.x(d.date) )
         .y( (d: any) => this.y(d.value) );
@@ -80,7 +108,21 @@ export class ChartComponent implements OnInit {
         .attr('class', 'line')
         .attr('fill', 'none')
         .attr('stroke', '#000')
-        .attr('d', this.line);
+        .attr('d', this.line)
+        .on('mouseover', (d) => {
+          console.log(d);
+          div.transition()
+             .duration(200)
+             .style('opacity', .9);
+          div.html('a tooltip <br/>' + d.date +'<br/>' + d.prediction)
+             .style('left', (12) + 'px')
+             .style('top', (28) + 'px');
+})
+.on('mouseout', (d) => {
+            div.transition()
+               .duration(500)
+               .style('opacity', 0);
+});
   }
 
 }
