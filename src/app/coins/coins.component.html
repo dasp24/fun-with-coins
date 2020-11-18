@@ -23,7 +23,7 @@
 
        <div>
         <input id="exchange" type="radio" value="exchange" name="searchType" formControlName="searchType" (change)="changeSearchType($event)">
-        <label for="exchange">Daily trade</label>
+        <label for="exchange">Daily trade // this does nothing but the network call at the moment when pressing submit</label>
      </div>
           
         <div *ngIf="f.searchType.touched && f.searchType.invalid" class="alert alert-danger">
@@ -33,7 +33,7 @@
     
     <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
 
-    <h2 *ngIf="price">{{selectedCoin}} {{price | currency: 'GBP'}}</h2>
+    <h2 *ngIf="price">current price of {{selectedCoin}} is {{price | currency: 'GBP'}}</h2>
     <div *ngIf="showGraph">
         <app-chart [data]=data></app-chart>
     </div>

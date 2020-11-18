@@ -14,7 +14,7 @@ import * as d3Axis from 'd3';
 export class ChartComponent implements OnInit {
 
   @Input() data;
-  public title = 'Line Chart';
+  shape = 'circle';
   formattedData: any[];
   private margin = {top: 20, right: 20, bottom: 30, left: 50};
   private width: number;
@@ -43,11 +43,30 @@ export class ChartComponent implements OnInit {
     d3.select('svg')
     .on('mousemove', (d) => { 
       const position = d3.pointer(d);
-      this.svg.append('circle')
-              .attr('fill', 'red')
-              .attr('r', 1.5)
-              .attr('cx', position[0])
-              .attr('cy', position[1])});
+      if (this.shape === 'circle') {
+
+        this.svg.append(this.shape)
+                .attr('fill', 'red')
+                .attr('r', 1.5)
+                .attr('cx', position[0])
+                .attr('cy', position[1])
+      } else {
+        this.svg.append(this.shape)
+        .attr('fill', 'blue')
+        .attr('x', position[0])
+        .attr('y', position[1])
+        .attr('width', 5)
+        .attr('height', 5)
+      }
+    })
+
+      .on('click',() =>{ 
+        d3.selectAll(this.shape).remove();
+        this.shape = this.shape === 'circle' ? 'rect' : 'circle';
+      })
+      .call(d3.zoom().on('zoom',  (event) => {
+        this.svg.attr('transform', event.transform)
+      }))
   }
 
   private setGraphData(data) {
@@ -108,21 +127,7 @@ export class ChartComponent implements OnInit {
         .attr('class', 'line')
         .attr('fill', 'none')
         .attr('stroke', '#000')
-        .attr('d', this.line)
-        .on('mouseover', (d) => {
-          console.log(d);
-          div.transition()
-             .duration(200)
-             .style('opacity', .9);
-          div.html('a tooltip <br/>' + d.date +'<br/>' + d.prediction)
-             .style('left', (12) + 'px')
-             .style('top', (28) + 'px');
-})
-.on('mouseout', (d) => {
-            div.transition()
-               .duration(500)
-               .style('opacity', 0);
-});
+        .attr('d', this.line);
   }
 
 }
